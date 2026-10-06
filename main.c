@@ -85,18 +85,26 @@ int validarMenu() {
 //FUNCION PARA EJECUTAR LA OPCION ELEGIDA
 void opcionElegida(int opcion) {
 
-    if (opcion == 1) {
-        opcion1();
-    }else if (opcion == 2) {
-        opcion2();
-    }else if (opcion == 3) {
-        opcion3();
-    }else if (opcion == 4) {
-        opcion4();
-    }else if (opcion == 5) {
-        opcion5();
-    }else if (opcion == 6) {
-        opcion6();
+    switch(opcion) {
+
+        case 1:
+            opcion1();
+            break;
+        case 2:
+            opcion2();
+            break;
+        case 3:
+            opcion3();
+            break;
+        case 4:
+            opcion4();
+            break;
+        case 5:
+            opcion5();
+            break;
+        case 6:
+            opcion6();
+            break;
     }
 
     return;
