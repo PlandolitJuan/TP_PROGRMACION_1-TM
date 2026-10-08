@@ -1,5 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
+#include <string.h>
+
 #define MAX 128
 
 //DECLARO ESTRUCTURA
@@ -15,17 +17,35 @@ typedef struct {
 
 //DECLARO FUNCIONES
 void bienvenida();
+//FUNCIONES MENU
 int menu();
 int validarMenu();
 void opcionElegida(int opcion);
+//FUNCIONES OPCION 1
 void opcion1();
 char valGama();
 char valCaja();
 float valPrecio();
 bool valDisponivil();
+
 void opcion2();
 void opcion3();
+
 void opcion4();
+void minimenu();
+int validarOpcion();
+void campoElegido(int opcion);
+void campo1();
+void campo2();
+void campo3();
+void campo4();
+void campo5();
+void campo6();
+void campo7();
+
+
+
+
 void opcion5();
 void opcion6();
 
@@ -110,7 +130,7 @@ void opcionElegida(int opcion) {
     return;
 }
 
-//FUNCION PARA EJECUTAR LA OPCION 1
+//INICIO DE FUNCIONES PARA OPCION 1
 void opcion1() {
 
     t_auto temp;
@@ -141,9 +161,12 @@ void opcion1() {
 
     FILE *f = fopen("Autos.txt", "a");
 
-    //LO DEL FINAL DEL PRINTF QUE DICE TRUE : FALSE, ES PARA QUE DEPENDIENDO EL VALOR DE LA VARIABLE BOOLEANA, SE ESCRIBA TRUE O FALSE EN EL ARCHIVO TXT
-    //EN VEZ DE TRUE O FALSE SE PODRIA PONER CUALQUIER OTRA COSA, COMO DISPONIBLE O NO DISPONIBLE
-    fprintf(f,"%s %s %c %c %d %f %s\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, temp.disponivilidad ? "TRUE" : "FALSE");
+    if (f == NULL) {
+        puts("Error al abrir el archivo");
+    }else {
+        fprintf(f,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, temp.disponivilidad);
+    }
+
 
     fclose(f);
 
@@ -227,3 +250,363 @@ bool valDisponivil() {
 
     return disponivil;
 }
+//FIN DE FUNCIONES PARA OPCION 1
+
+//ACA PONER TOD0 LO QUE TENGA QUE VER CON OPCION 2, Y DESPUES TOD0 LO QUE TENGA QUE VER CON LA OPCION 3
+
+
+
+//INICIO DE FUNCIONES PARA OPCION 4
+void opcion4() {
+
+    minimenu();
+
+    return;
+}
+
+void minimenu() {
+
+    int opcion;
+
+    printf("\n1: Buscar por MARCA\n");
+    printf("2: Buscar por PATENTE\n");
+    printf("3: Buscar por GAMA\n");
+    printf("4: Buscar por CAJA\n");
+    printf("5: Buscar por AÑO\n");
+    printf("6: Buscar por PRECIO\n");
+    printf("7: Buscar por DISPONIVILIDAD\n");
+    printf("OPCION ELEGIDA: ");
+    opcion = validarOpcion();
+
+    campoElegido(opcion);
+
+    return;
+}
+
+int validarOpcion() {
+
+    int opcion;
+
+    scanf("%d", &opcion);
+    while (opcion < 1 || opcion > 7) {
+        puts("Error, volver a ingresar: ");
+        scanf("%d", &opcion);
+    }
+
+    return opcion;
+}
+
+void campoElegido(int opcion){
+
+    switch (opcion) {
+        case 1:
+            campo1();
+            break;
+        case 2:
+            campo2();
+            break;
+        case 3:
+            campo3();
+            break;
+        case 4:
+            campo4();
+            break;
+        case 5:
+            campo5();
+            break;
+        case 6:
+            campo6();
+            break;
+        case 7:
+            campo7();
+            break;
+    }
+
+    return;
+}
+
+void campo1() {
+
+    char marca[MAX];
+    int cantidad = 0, booleano, autos = 0;
+
+    printf("Ingresa una marca de autos: ");
+    fflush(stdin);
+    gets(marca);
+    fflush(stdin);
+
+    t_auto temp;
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (strcmp(temp.marca, marca) == 0) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }else if (booleano == 0) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }
+                cantidad++;
+            }
+            autos++;
+        }
+        fclose(f);
+    }
+
+    if (cantidad == 0) {
+        printf("No se encontraron autos con esa MARCA\n");
+    }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+void campo2() {
+
+    char patente[MAX];
+    int booleano, cantidad = 0, autos = 0;
+
+    printf("Ingresa una patente: ");
+    fflush(stdin);
+    gets(patente);
+    fflush(stdin);
+
+    t_auto temp;
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (strcmp(temp.patente, patente) == 0) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }else if (booleano == 0) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }
+                cantidad++;
+            }
+
+        }
+        fclose(f);
+    }
+
+    if (cantidad == 0) {
+        printf("No se encontraron autos con esa PATENTE\n");
+    }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+void campo3() {
+
+    char gama;
+    int booleano, cantidad = 0, autos=0;
+    t_auto temp;
+
+    printf("Ingresa una gama(B/M/A): ");
+    fflush(stdin);
+    gama = valGama();
+
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (temp.gama == gama) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }else if (temp.gama == gama) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }
+                cantidad++;
+            }
+            autos++;
+        }
+        fclose(f);
+    }
+
+    if (cantidad == 0) {
+        printf("No se encontraron autos de esa GAMA\n");
+    }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+void campo4() {
+
+    char caja;
+    int booleano, cantidad = 0, autos=0;
+    t_auto temp;
+
+    printf("Ingresar el tipo de CAJA(A/M): ");
+    caja = valCaja();
+
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (temp.caja == caja) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }else if (booleano == 0) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }
+                cantidad++;
+            }
+            autos++;
+        }
+        fclose(f);
+    }
+
+    if (cantidad == 0) {
+        printf("No se encontraron autos con ese tipo de CAJA\n");
+    }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+void campo5() {
+
+    int ano, cantidad = 0, autos=0, booleano;
+    t_auto temp;
+    printf("Ingresar el AÑO del vehiculo: ");
+    scanf("%d", &ano);
+
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (temp.ano == ano) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }else if (booleano == 0) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }
+                cantidad++;
+            }
+            autos++;
+        }
+        fclose(f);
+    }
+
+    if (cantidad == 0) {
+        printf("No se encontraron autos de ese AÑO\n");
+    }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+void campo6() {
+
+    float precio;
+    int autos = 0, cantidad = 0, booleano;
+    t_auto temp;
+
+    printf("Ingresar el precio del auto: ");
+    precio = valPrecio();
+
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (temp.precio == precio) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }else if (booleano == 0) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                }
+                cantidad++;
+            }
+            autos++;
+        }
+        fclose(f);
+    }
+
+    if (cantidad == 0) {
+        printf("No se encontraron autos con ese PRECIO\n");
+    }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+void campo7() {
+
+    int cantidad = 0, autos=0, booleano;
+    bool disponivilidad;
+    t_auto temp;
+    printf("Ingresar DISPONIVILIDAD(S/N): ");
+    disponivilidad = valDisponivil();
+
+    FILE *f = fopen("Autos.txt", "r");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        printf("Buscando autos...\n\n");
+        for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+
+            if (disponivilidad == true) {
+                if (booleano == 1) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    cantidad++;
+                }
+            }else {
+                if (booleano == 0) {
+                    printf("%-15s%-10s\t%c\t%c\t%d\t%f\tNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    cantidad++;
+                }
+            }
+            autos++;
+        }
+        fclose(f);
+    }
+
+   if (cantidad == 0) {
+       printf("No Se encontraron autos\n");
+   }
+
+    printf("Se analizaron %d autos\n", autos);
+
+    return;
+}
+
+//FIN DE OPCION 4
+
+
+
+//ROMAN ACORDATE DE SI VAS A CODEAR LAS OPCIONES 2 Y 3, ESCRIBI
+//TODOS LAS FUNCIONES QUE TENGAN QUE VER CON ESAS DOS ARRIBA DE LAS FUNCIONES DE LA 4
+//ASI LAS FUNCIONES ESTAN EN ORDEN Y NO QUEDAN DESORDENADAS
