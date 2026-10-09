@@ -30,7 +30,7 @@ bool valDisponivil();
 
 void opcion2();
 void opcion3();
-
+//FUNCIONES PARA OPCION 4
 void opcion4();
 void minimenu();
 int validarOpcion();
@@ -42,7 +42,7 @@ void campo4();
 void campo5();
 void campo6();
 void campo7();
-
+void mayusculas(char string[]);
 
 
 
@@ -334,6 +334,7 @@ void campo1() {
     fflush(stdin);
     gets(marca);
     fflush(stdin);
+    mayusculas(marca);
 
     t_auto temp;
     FILE *f = fopen("Autos.txt", "r");
@@ -375,6 +376,7 @@ void campo2() {
     fflush(stdin);
     gets(patente);
     fflush(stdin);
+    mayusculas(patente);
 
     t_auto temp;
     FILE *f = fopen("Autos.txt", "r");
@@ -603,6 +605,14 @@ void campo7() {
     return;
 }
 
+
+void mayusculas(char string[]) {
+
+    for (int i = 0; i < strlen(string); i++) {
+        string[i] = toupper(string[i]);
+    }
+
+}
 //FIN DE OPCION 4
 
 
