@@ -47,6 +47,8 @@ void campo7();
 void mayusculas(char string[]);
 //FUNCIONES OPCION 5
 void opcion5();
+void writedisponibles();
+void writenodisponibles();
 //FUNCIONES OPCION 6
 void opcion6();
 
@@ -346,12 +348,6 @@ void opcion3() {
 
 //FIN DE FUNCIONES PARA OPCION 2 Y 3
 
-
-
-
-
-
-
 //INICIO DE FUNCIONES PARA OPCION 4
 
 void opcion4() {
@@ -360,7 +356,6 @@ void opcion4() {
 
     return;
 }
-
 
 void minimenu() {
 
@@ -381,7 +376,6 @@ void minimenu() {
     return;
 }
 
-
 int validarOpcion() {
 
     int opcion;
@@ -395,7 +389,6 @@ int validarOpcion() {
 
     return opcion;
 }
-
 
 void campoElegido(int opcion){
 
@@ -425,7 +418,6 @@ void campoElegido(int opcion){
 
     return;
 }
-
 
 
 void campo1() {
@@ -478,7 +470,6 @@ void campo1() {
 
 }
 
-
 void campo2() {
 
     char patente[MAX];
@@ -523,7 +514,6 @@ void campo2() {
 
     return;
 }
-
 
 void campo3() {
 
@@ -570,7 +560,6 @@ void campo3() {
     return;
 }
 
-
 void campo4() {
 
     char caja;
@@ -614,7 +603,6 @@ void campo4() {
     return;
 }
 
-
 void campo5() {
 
     int ano, cantidad = 0, autos=0, booleano;
@@ -657,7 +645,6 @@ void campo5() {
     return;
 }
 
-
 void campo6() {
 
     float precio;
@@ -699,7 +686,6 @@ void campo6() {
 
     return;
 }
-
 
 void campo7() {
 
@@ -748,7 +734,6 @@ void campo7() {
 
 }
 
-
 void mayusculas(char string[]) {
 
     for (int i = 0; i < strlen(string); i++) {
@@ -758,11 +743,66 @@ void mayusculas(char string[]) {
 }
 //FIN DE OPCION 4
 
+//INICION DE OPCION 5
 
+void opcion5() {
 
+    writedisponibles();
+    writenodisponibles();
 
+    printf("\nArchivos creados con exito!");
 
+    return;
+}
 
+void writedisponibles() {
+
+    t_auto temp;
+    int booleano;
+
+    FILE *f = fopen("Autos.txt", "r");
+    FILE *j = fopen("DISPONIBLES.txt", "w");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        for (int i = 0;fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+            if (booleano == 1) {
+                fprintf(j,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, booleano);
+            }
+        }
+    }
+
+    fclose(f);
+    fclose(j);
+
+    return;
+
+}
+
+void writenodisponibles() {
+
+    t_auto temp;
+    int booleano;
+
+    FILE *f = fopen("Autos.txt", "r");
+    FILE *j = fopen("NO_DISPONIBLES.txt", "w");
+
+    if (f == NULL) {
+        puts("Error al abrir el archivo\n");
+    }else {
+        for (int i = 0;fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+            if (booleano == 0) {
+                fprintf(j,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, booleano);
+            }
+        }
+    }
+
+    fclose(f);
+    fclose(j);
+
+    return;
+}
 
 //ROMAN ACORDATE DE SI VAS A CODEAR LAS OPCIONES 2 Y 3, ESCRIBI
 //TODOS LAS FUNCIONES QUE TENGAN QUE VER CON ESAS DOS ARRIBA DE LAS FUNCIONES DE LA 4
