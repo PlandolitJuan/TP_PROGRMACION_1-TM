@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #define MAX 128
 
@@ -26,6 +27,7 @@ void opcionElegida(int opcion);
 void opcion1();
 char valGama();
 char valCaja();
+int valAno();
 float valPrecio();
 bool valDisponivil();
 //FUNCIONES OPCION 2
@@ -75,6 +77,7 @@ void bienvenida() {
 //FUNCION PARA DESPEGLAR MENU Y ELEGIR OPCION
 int menu() {
 
+
     int opcion = 0;
 
     while (opcion != 6) {
@@ -101,11 +104,14 @@ int validarMenu() {
 
     scanf("%d", &numero);
 
+    fflush(stdin);
+
     while (numero != 1 && numero != 2 && numero != 3 && numero != 4 && numero != 5 && numero != 6) {
 
         puts("Error, volver a ingresar\n");
         printf("Ingresar opcion: ");
         scanf("%d", &numero);
+        fflush(stdin);
 
     }
     return numero;
@@ -114,6 +120,7 @@ int validarMenu() {
 
 //FUNCION PARA EJECUTAR LA OPCION ELEGIDA
 void opcionElegida(int opcion) {
+
 
     switch(opcion) {
 
@@ -144,6 +151,7 @@ void opcionElegida(int opcion) {
 //INICIO DE FUNCIONES PARA OPCION 1
 void opcion1() {
 
+    system("cls");
     t_auto temp;
 
     printf("Ingrese la marca de la unidad: ");
@@ -164,8 +172,8 @@ void opcion1() {
     printf("Ingrese la caja de la unidad(A/M): ");
     temp.caja = valCaja();
 
-    printf("Ingrese el año de fabricacion: ");
-    scanf("%d", &temp.ano);
+    printf("Ingrese cuando fue producido(MAYOR A 1925): ");
+    temp.ano = valAno();
 
     printf("Ingrese el precio de la unidad por dia: ");
     temp.precio = valPrecio();
@@ -228,6 +236,21 @@ char valCaja() {
 
 }
 
+valAno() {
+
+    int ano;
+
+    scanf("%d", &ano);
+    fflush(stdin);
+
+    while (ano < 1925) {
+        puts("Error, volver a ingresar: ");
+        scanf("%d", &ano);
+        fflush(stdin);
+    }
+
+    return ano;
+}
 
 //VALIDO EL PRECIO INGRESADO EN OPCION1
 float valPrecio() {
@@ -235,11 +258,13 @@ float valPrecio() {
     float precio;
 
     scanf("%f", &precio);
+    fflush(stdin);
 
     while (precio <= 0.0) {
 
         puts("Error, volver a ingresar: ");
         scanf("%f", &precio);
+        fflush(stdin);
     }
 
     return precio;
@@ -280,6 +305,7 @@ bool valDisponivil() {
 
 void opcion2() {
 
+    system("cls");
     int booleano, autos = 0;
     t_auto temp;
 
@@ -289,14 +315,14 @@ void opcion2() {
         puts("Error al abrir el archivo\n");
     }else {
         printf("\nLISTADO DE TODAS LAS UNIDADES\n\n");
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
 
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano) == 7; i++) {
 
             if (booleano == 1) {
-                printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
             }else if (booleano == 0) {
-                printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
             }
 
             autos++;
@@ -313,6 +339,7 @@ void opcion2() {
 
 void opcion3() {
 
+    system("cls");
     int booleano, autos = 0, cantidad = 0;
     t_auto temp;
 
@@ -322,12 +349,12 @@ void opcion3() {
         puts("Error al abrir el archivo\n");
     }else {
         printf("\nLISTADO DE UNIDADES DISPONIBLES\n\n");
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
 
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano) == 7; i++) {
 
             if (booleano == 1) {
-                printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 cantidad++;
             }
 
@@ -352,6 +379,7 @@ void opcion3() {
 
 void opcion4() {
 
+    system("cls");
     minimenu();
 
     return;
@@ -359,13 +387,14 @@ void opcion4() {
 
 void minimenu() {
 
+    system("cls");
     int opcion;
 
     printf("\n1: Buscar por MARCA\n");
     printf("2: Buscar por PATENTE\n");
     printf("3: Buscar por GAMA\n");
     printf("4: Buscar por CAJA\n");
-    printf("5: Buscar por AÑO\n");
+    printf("5: Buscar por cuando fue PRODUCIDO\n");
     printf("6: Buscar por PRECIO\n");
     printf("7: Buscar por DISPONIVILIDAD\n");
     printf("OPCION ELEGIDA: ");
@@ -381,10 +410,12 @@ int validarOpcion() {
     int opcion;
 
     scanf("%d", &opcion);
+    fflush(stdin);
     while (opcion < 1 || opcion > 7) {
 
         puts("Error, volver a ingresar: ");
         scanf("%d", &opcion);
+        fflush(stdin);
     }
 
     return opcion;
@@ -422,6 +453,7 @@ void campoElegido(int opcion){
 
 void campo1() {
 
+    system("cls");
     char marca[MAX];
     int cantidad = 0, booleano, autos = 0;
     t_auto temp;
@@ -439,14 +471,14 @@ void campo1() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (strcmp(temp.marca, marca) == 0) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }else if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }
 
                 cantidad++;
@@ -464,7 +496,7 @@ void campo1() {
         printf("No se encontraron autos con esa MARCA\n");
     }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 
@@ -472,6 +504,7 @@ void campo1() {
 
 void campo2() {
 
+    system("cls");
     char patente[MAX];
     int booleano, cantidad = 0, autos = 0;
 
@@ -489,14 +522,14 @@ void campo2() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (strcmp(temp.patente, patente) == 0) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }else if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }
                 cantidad++;
             }
@@ -510,13 +543,14 @@ void campo2() {
         printf("No se encontraron autos con esa PATENTE\n");
     }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 }
 
 void campo3() {
 
+    system("cls");
     char gama;
     int booleano, cantidad = 0, autos=0;
     t_auto temp;
@@ -534,14 +568,14 @@ void campo3() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (temp.gama == gama) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }else if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }
                 cantidad++;
             }
@@ -555,13 +589,14 @@ void campo3() {
         printf("No se encontraron autos de esa GAMA\n");
     }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 }
 
 void campo4() {
 
+    system("cls");
     char caja;
     int booleano, cantidad = 0, autos=0;
     t_auto temp;
@@ -577,14 +612,14 @@ void campo4() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (temp.caja == caja) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }else if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }
                 cantidad++;
             }
@@ -598,17 +633,18 @@ void campo4() {
         printf("No se encontraron autos con ese tipo de CAJA\n");
     }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 }
 
 void campo5() {
 
+    system("cls");
     int ano, cantidad = 0, autos=0, booleano;
     t_auto temp;
 
-    printf("Ingresar el AÑO del vehiculo: ");
+    printf("Ingresar cuando fue producido el vehiculo: ");
     scanf("%d", &ano);
 
 
@@ -619,14 +655,14 @@ void campo5() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (temp.ano == ano) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }else if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }
                 cantidad++;
             }
@@ -637,16 +673,17 @@ void campo5() {
     }
 
     if (cantidad == 0) {
-        printf("No se encontraron autos de ese AÑO\n");
+        printf("No se encontraron autos en ese tiempo\n");
     }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 }
 
 void campo6() {
 
+    system("cls");
     float precio;
     int autos = 0, cantidad = 0, booleano;
     t_auto temp;
@@ -662,14 +699,14 @@ void campo6() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (temp.precio == precio) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }else if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                 }
                 cantidad++;
             }
@@ -682,13 +719,14 @@ void campo6() {
         printf("No se encontraron autos con ese PRECIO\n");
     }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 }
 
 void campo7() {
 
+    system("cls");
     int cantidad = 0, autos=0, booleano;
     bool disponivilidad;
     t_auto temp;
@@ -704,17 +742,17 @@ void campo7() {
     }else {
         printf("Buscando autos...\n\n");
 
-        printf("%-15s%-10s\tGAMA\tCAJA\tAÑO\tPRECIO\tDISPONIBILIDAD\n", "MARCA", "PATENTE");
+        printf("%-15s %-10s %-6s %-6s %-12s %-12s %s\n", "MARCA", "PATENTE", "GAMA", "CAJA", "PRODUCIDO", "PRECIO", "DISPONIBILIDAD");
         for (int i = 0; fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
 
             if (disponivilidad == true) {
                 if (booleano == 1) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fDISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                     cantidad++;
                 }
             }else {
                 if (booleano == 0) {
-                    printf("%-15s%-10s\t%c\t%c\t%d\t%-10.1fNO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
+                    printf("%-15s %-10s %-6c %-6c %-12d %-12.1f NO DISPONIBLE\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio);
                     cantidad++;
                 }
             }
@@ -728,7 +766,7 @@ void campo7() {
        printf("No Se encontraron autos\n");
    }
 
-    printf("Se analizaron %d autos\n", autos);
+    printf("\nSe analizaron %d autos\n", autos);
 
     return;
 
@@ -747,10 +785,11 @@ void mayusculas(char string[]) {
 
 void opcion5() {
 
+    system("cls");
     writedisponibles();
     writenodisponibles();
 
-    printf("\nArchivos creados con exito!");
+    printf("Archivos creados con exito!\n");
 
     return;
 }
@@ -764,11 +803,15 @@ void writedisponibles() {
     FILE *j = fopen("DISPONIBLES.txt", "w");
 
     if (f == NULL) {
-        puts("Error al abrir el archivo\n");
+        puts("Error al abrir el archivo Autos.txt\n");
     }else {
-        for (int i = 0;fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
-            if (booleano == 1) {
-                fprintf(j,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, booleano);
+        if (j == NULL) {
+            puts("Error al abrir el archivo DISPONIBLES.txt\n");
+        }else {
+            for (int i = 0;fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+                if (booleano == 1) {
+                    fprintf(j,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, booleano);
+                }
             }
         }
     }
@@ -777,8 +820,8 @@ void writedisponibles() {
     fclose(j);
 
     return;
-
 }
+
 
 void writenodisponibles() {
 
@@ -788,15 +831,19 @@ void writenodisponibles() {
     FILE *f = fopen("Autos.txt", "r");
     FILE *j = fopen("NO_DISPONIBLES.txt", "w");
 
-    if (f == NULL) {
-        puts("Error al abrir el archivo\n");
-    }else {
-        for (int i = 0;fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
-            if (booleano == 0) {
-                fprintf(j,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, booleano);
+        if (f == NULL) {
+            puts("Error al abrir el archivo Autos.txt\n");
+        }else {
+            if (j == NULL) {
+                puts("Error al abrir el archivo NO_DISPONIBLES.txt\n");
+            }else {
+                for (int i = 0;fscanf(f, "%s %s %c %c %d %f %d", temp.marca, temp.patente, &temp.gama, &temp.caja, &temp.ano, &temp.precio, &booleano ) == 7; i++) {
+                    if (booleano == 0) {
+                        fprintf(j,"%s %s %c %c %d %f %d\n", temp.marca, temp.patente, temp.gama, temp.caja, temp.ano, temp.precio, booleano);
+                    }
+                }
             }
         }
-    }
 
     fclose(f);
     fclose(j);
@@ -804,6 +851,11 @@ void writenodisponibles() {
     return;
 }
 
-//ROMAN ACORDATE DE SI VAS A CODEAR LAS OPCIONES 2 Y 3, ESCRIBI
-//TODOS LAS FUNCIONES QUE TENGAN QUE VER CON ESAS DOS ARRIBA DE LAS FUNCIONES DE LA 4
-//ASI LAS FUNCIONES ESTAN EN ORDEN Y NO QUEDAN DESORDENADAS
+
+void opcion6() {
+
+    system("cls");
+    printf("\nFin de Programa\n");
+
+    return;
+}
