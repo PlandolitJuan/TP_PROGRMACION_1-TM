@@ -191,6 +191,9 @@ void opcion1() {
 
     fclose(f);
 
+    system("cls");
+    printf("Auto registrado con exito!\n");
+
     return;
 }
 
@@ -236,7 +239,7 @@ char valCaja() {
 
 }
 
-valAno() {
+int valAno() {
 
     int ano;
 
