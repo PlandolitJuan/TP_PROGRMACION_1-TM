@@ -239,7 +239,7 @@ char valCaja() {
 
 }
 
-valAno() {
+int valAno() {
 
     int ano;
 
