@@ -80,12 +80,12 @@ int menu() {
     while (opcion != 6) {
 
         printf("\n1. Registrar una unidad\n");
-        printf("2. Listar todas las unidades registrados\n");
+        printf("2. Listar todas las unidades registradas\n");
         printf("3. Listar solo las unidades disponibles\n");
-        printf("4. Busqueda de unidad por algun campo\n");
-        printf("5. Dividir las unidades disponibles y no disponibles en dos archivos nuevo\n");
+        printf("4. Busqueda de unidad por algun campo a eleccion\n");
+        printf("5. Dividir las unidades disponibles y no disponibles en dos archivos nuevos\n");
         printf("6. SALIR DEL SISTEMA\n");
-        printf("INGRESAR UNA OPCION: ");
+        printf("\nINGRESAR UNA OPCION: ");
         opcion = validarMenu();
 
         opcionElegida(opcion);
