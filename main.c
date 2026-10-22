@@ -6,7 +6,6 @@
 #define MAX 128
 
 //DECLARO ESTRUCTURA
-
 typedef struct {
     char marca[MAX];
     char patente[MAX];
@@ -55,7 +54,6 @@ void writenodisponibles();
 void opcion6();
 
 
-
 //EL MAIN
 int main() {
 
@@ -64,7 +62,6 @@ int main() {
 
     return 0;
 }
-
 
 void bienvenida() {
 
@@ -146,7 +143,6 @@ void opcionElegida(int opcion) {
     return;
 
 }
-
 
 //INICIO DE FUNCIONES PARA OPCION 1
 void opcion1() {
@@ -239,6 +235,7 @@ char valCaja() {
 
 }
 
+//VALIDO EL AÑO DEL VEHICULO
 int valAno() {
 
     int ano;
@@ -273,7 +270,6 @@ float valPrecio() {
     return precio;
 }
 
-
 //VALIDO LA DISPONOVILIDAD INGRESADA EN OPCION1
 bool valDisponivil() {
 
@@ -304,7 +300,7 @@ bool valDisponivil() {
 //FIN DE FUNCIONES PARA OPCION 1
 
 
-//INICIO DE FUNCIONES PARA OPCION 2 Y 3
+//INICIO DE FUNCIONES PARA OPCION 2
 
 void opcion2() {
 
@@ -339,7 +335,9 @@ void opcion2() {
     return;
 }
 
+//FIN DE FUNCIONES PARA OPCION 2
 
+//INICIO DE FUNCIONES PARA OPCION 3
 void opcion3() {
 
     system("cls");
@@ -376,7 +374,8 @@ void opcion3() {
     return;
 }
 
-//FIN DE FUNCIONES PARA OPCION 2 Y 3
+//FIN DE FUNCIONES PARA OPCION 3
+
 
 //INICIO DE FUNCIONES PARA OPCION 4
 
@@ -388,6 +387,7 @@ void opcion4() {
     return;
 }
 
+//DESPLEGAR MENU
 void minimenu() {
 
     system("cls");
@@ -408,6 +408,7 @@ void minimenu() {
     return;
 }
 
+//VALIDAR OPCION DE MENU
 int validarOpcion() {
 
     int opcion;
@@ -424,6 +425,7 @@ int validarOpcion() {
     return opcion;
 }
 
+//REDIRECCIONAR A LA OPCION DE BUSQUEDA ELEGIDA
 void campoElegido(int opcion){
 
     switch (opcion) {
@@ -454,6 +456,7 @@ void campoElegido(int opcion){
 }
 
 
+//FUNCION PARA CADA CAMPO DE BUSQUEDA
 void campo1() {
 
     system("cls");
@@ -775,6 +778,7 @@ void campo7() {
 
 }
 
+//OPCION PARA PASAR A MAYUSCULAS A CUALQUIER STRING
 void mayusculas(char string[]) {
 
     for (int i = 0; i < strlen(string); i++) {
@@ -797,6 +801,7 @@ void opcion5() {
     return;
 }
 
+//ESCRIBIR EN ARCHIVO DE DISPONIBLES
 void writedisponibles() {
 
     t_auto temp;
@@ -825,7 +830,7 @@ void writedisponibles() {
     return;
 }
 
-
+//ESCRIBIR EN ARCHIVO DE NO DISPONIBLES
 void writenodisponibles() {
 
     t_auto temp;
@@ -854,7 +859,7 @@ void writenodisponibles() {
     return;
 }
 
-
+//OPCION 6
 void opcion6() {
 
     system("cls");
